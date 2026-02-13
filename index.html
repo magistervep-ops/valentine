@@ -1,4 +1,6 @@
 <script>
+document.addEventListener("DOMContentLoaded", function() {
+
 const noBtn = document.getElementById("no");
 const yesBtn = document.getElementById("yes");
 
@@ -48,5 +50,7 @@ yesBtn.addEventListener("click", () => {
   `;
 
   setInterval(createHeart, 200);
+});
+
 });
 </script>
