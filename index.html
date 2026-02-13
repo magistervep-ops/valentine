@@ -15,28 +15,23 @@ body {
   align-items: center;
   font-family: Arial, sans-serif;
   overflow: hidden;
-  text-align: center;
 }
 
 .card {
   background: white;
   width: 90%;
   max-width: 340px;
-  padding: 25px 20px;
+  padding: 25px 20px 80px;
   border-radius: 20px;
   box-shadow: 0 15px 35px rgba(0,0,0,0.2);
   position: relative;
+  text-align: center;
 }
 
 h1 {
   font-size: 18px;
   margin-bottom: 20px;
   color: #ff4d6d;
-}
-
-.buttons {
-  position: relative;
-  height: 100px;
 }
 
 button {
@@ -52,45 +47,39 @@ button {
   background: #ff4d6d;
   color: white;
   width: 100%;
-  position: relative;
-  z-index: 2;
 }
 
 #no {
   background: #ddd;
   position: absolute;
   width: 100px;
-  left: 0;
-  top: 60px;
+  bottom: 20px;
+  left: 20px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
+<div class="card" id="card">
   <h1>Лиза, ты будешь моей валентинкой? 💖</h1>
-
-  <div class="buttons">
-    <button id="yes">Да 💘</button>
-    <button id="no">Нет 🙈</button>
-  </div>
+  <button id="yes">Да 💘</button>
+  <button id="no">Нет 🙈</button>
 </div>
-
-<!-- звук -->
-<audio id="sound" src="https://www.soundjay.com/human/sounds/applause-8.mp3"></audio>
 
 <script>
 const yesBtn = document.getElementById("yes");
 const noBtn = document.getElementById("no");
-const sound = document.getElementById("sound");
+const card = document.getElementById("card");
 
-let yesSize = 1;
+let yesScale = 1;
 
-// Кнопка "Нет" убегает + кнопка "Да" растет
+// Кнопка "Нет" двигается ТОЛЬКО внутри карточки
 function moveButton() {
-  const maxX = window.innerWidth - 120;
-  const maxY = window.innerHeight - 80;
+
+  const cardRect = card.getBoundingClientRect();
+  const maxX = cardRect.width - 110;
+  const maxY = cardRect.height - 60;
 
   const x = Math.random() * maxX;
   const y = Math.random() * maxY;
@@ -98,8 +87,9 @@ function moveButton() {
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
 
-  yesSize += 0.1;
-  yesBtn.style.transform = "scale(" + yesSize + ")";
+  // Увеличиваем кнопку "Да"
+  yesScale += 0.1;
+  yesBtn.style.transform = "scale(" + yesScale + ")";
 }
 
 noBtn.addEventListener("touchstart", moveButton);
@@ -129,13 +119,15 @@ style.innerHTML = `
 `;
 document.head.appendChild(style);
 
-// При нажатии ДА
+// Нажатие "Да"
 yesBtn.addEventListener("click", function() {
 
-  sound.play();
+  // Создаем звук правильно (работает в Telegram)
+  const audio = new Audio("https://www.soundjay.com/human/sounds/applause-8.mp3");
+  audio.play();
 
   document.body.innerHTML = `
-    <div style="padding:20px;color:white;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;">
+    <div style="height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#ff7ea5;color:white;text-align:center;padding:20px;">
       <img src="https://i.pinimg.com/originals/e1/43/92/e14392b3bb9f745025a5cf6a9abe11be.gif"
            style="width:80%;max-width:280px;border-radius:15px;">
       <h1 style="font-size:28px;margin-top:20px;">
