@@ -21,7 +21,7 @@ body {
   background: white;
   width: 90%;
   max-width: 340px;
-  padding: 25px 20px 80px;
+  padding: 25px 20px 90px;
   border-radius: 20px;
   box-shadow: 0 15px 35px rgba(0,0,0,0.2);
   position: relative;
@@ -73,13 +73,18 @@ const noBtn = document.getElementById("no");
 const card = document.getElementById("card");
 
 let yesScale = 1;
+let noScale = 1;
 
-// Кнопка "Нет" двигается ТОЛЬКО внутри карточки
+// Движение кнопки "Нет" строго внутри карточки
 function moveButton() {
 
   const cardRect = card.getBoundingClientRect();
-  const maxX = cardRect.width - 110;
-  const maxY = cardRect.height - 60;
+  const noRect = noBtn.getBoundingClientRect();
+
+  const padding = 10;
+
+  const maxX = cardRect.width - noRect.width - padding;
+  const maxY = cardRect.height - noRect.height - padding;
 
   const x = Math.random() * maxX;
   const y = Math.random() * maxY;
@@ -87,9 +92,14 @@ function moveButton() {
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
 
-  // Увеличиваем кнопку "Да"
-  yesScale += 0.1;
+  // "Да" растет
+  yesScale += 0.15;
   yesBtn.style.transform = "scale(" + yesScale + ")";
+
+  // "Нет" уменьшается
+  noScale -= 0.1;
+  if (noScale < 0.4) noScale = 0.4;
+  noBtn.style.transform = "scale(" + noScale + ")";
 }
 
 noBtn.addEventListener("touchstart", moveButton);
@@ -122,7 +132,12 @@ document.head.appendChild(style);
 // Нажатие "Да"
 yesBtn.addEventListener("click", function() {
 
-  // Создаем звук правильно (работает в Telegram)
+  // Вибрация
+  if (navigator.vibrate) {
+    navigator.vibrate([200, 100, 200]);
+  }
+
+  // Звук
   const audio = new Audio("https://www.soundjay.com/human/sounds/applause-8.mp3");
   audio.play();
 
@@ -130,8 +145,8 @@ yesBtn.addEventListener("click", function() {
     <div style="height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#ff7ea5;color:white;text-align:center;padding:20px;">
       <img src="https://i.pinimg.com/originals/e1/43/92/e14392b3bb9f745025a5cf6a9abe11be.gif"
            style="width:80%;max-width:280px;border-radius:15px;">
-      <h1 style="font-size:28px;margin-top:20px;">
-        УРААААААААА!)) 🎉💖
+      <h1 style="font-size:32px;margin-top:20px;">
+        УРААААААААА!)) 😍🥰❤️
       </h1>
     </div>
   `;
