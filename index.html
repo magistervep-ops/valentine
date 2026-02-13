@@ -2,12 +2,16 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Для Лизы 💖</title>
+
 <style>
 body {
   margin: 0;
   height: 100vh;
-  background: linear-gradient(135deg, #ff758c, #ff7eb3);
+  background: linear-gradient(-45deg, #ff758c, #ff7eb3, #ffb199, #ff6a88);
+  background-size: 400% 400%;
+  animation: gradient 8s ease infinite;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,26 +19,35 @@ body {
   overflow: hidden;
 }
 
+@keyframes gradient {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
+}
+
 .card {
   background: white;
   padding: 40px;
-  border-radius: 20px;
+  border-radius: 25px;
   text-align: center;
-  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  position: relative;
 }
 
 h1 {
+  font-size: 28px;
   margin-bottom: 30px;
+  color: #ff4d6d;
 }
 
 button {
-  padding: 15px 25px;
+  padding: 15px 30px;
   font-size: 18px;
-  border-radius: 12px;
+  border-radius: 15px;
   border: none;
   cursor: pointer;
   margin: 10px;
-  transition: 0.2s;
+  transition: 0.3s;
 }
 
 #yes {
@@ -42,25 +55,39 @@ button {
   color: white;
 }
 
+#yes:hover {
+  transform: scale(1.1);
+}
+
 #no {
   background: #ddd;
   position: absolute;
+}
+
+.success {
+  text-align: center;
+  color: white;
+}
+
+.success h1 {
+  font-size: 40px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
-  <h1>Ты будешь моей валентинкой? 💖</h1>
+<div class="card" id="card">
+  <h1>Лиза 💖<br>Ты будешь моей валентинкой?</h1>
   <button id="yes">Да 💘</button>
-  <button id="no">Нет 😢</button>
+  <button id="no">Нет 🙈</button>
 </div>
 
 <script>
 const noBtn = document.getElementById("no");
 const yesBtn = document.getElementById("yes");
 
+// Убегающая кнопка
 noBtn.addEventListener("mouseover", () => {
   const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
   const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
@@ -68,11 +95,13 @@ noBtn.addEventListener("mouseover", () => {
   noBtn.style.top = y + "px";
 });
 
+// При нажатии Да
 yesBtn.addEventListener("click", () => {
   document.body.innerHTML = `
-    <h1 style="text-align:center;margin-top:40vh;font-size:40px;">
-      Я знал(а)! 💕💖💕
-    </h1>
+    <div class="success">
+      <h1>Я знал, Лиза 😍💖</h1>
+      <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" width="300">
+    </div>
   `;
 });
 </script>
