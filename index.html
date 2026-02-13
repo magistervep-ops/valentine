@@ -75,9 +75,24 @@ const card = document.getElementById("card");
 let yesScale = 1;
 let noScale = 1;
 
-// звуки
+// 🎵 Фоновая романтическая музыка
+const bgMusic = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_2f9b7b6b6f.mp3?filename=romantic-piano-110624.mp3");
+bgMusic.loop = true;
+bgMusic.volume = 0.4;
+
+// 🔊 Звуки клика и победы
 const clickSound = new Audio("https://www.soundjay.com/buttons/sounds/button-3.mp3");
 const winSound = new Audio("https://www.soundjay.com/human/sounds/applause-8.mp3");
+
+// запуск фоновой музыки после первого касания
+function startMusic() {
+  bgMusic.play();
+  document.removeEventListener("touchstart", startMusic);
+  document.removeEventListener("click", startMusic);
+}
+
+document.addEventListener("touchstart", startMusic);
+document.addEventListener("click", startMusic);
 
 // движение "Нет"
 function moveButton() {
@@ -101,11 +116,9 @@ function moveButton() {
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
 
-  // да растет
   yesScale += 0.15;
   yesBtn.style.transform = "scale(" + yesScale + ")";
 
-  // нет уменьшается
   noScale -= 0.1;
   if (noScale < 0.4) noScale = 0.4;
   noBtn.style.transform = "scale(" + noScale + ")";
@@ -138,23 +151,22 @@ style.innerHTML = `
 `;
 document.head.appendChild(style);
 
-// нажатие ДА
+// нажатие "Да"
 yesBtn.addEventListener("click", function() {
 
   clickSound.play();
+  winSound.play();
 
   if (navigator.vibrate) {
     navigator.vibrate([200,100,200]);
   }
 
-  winSound.play();
-
   document.body.innerHTML = `
     <div style="height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#ff7ea5;color:white;text-align:center;padding:20px;">
       <img src="https://i.pinimg.com/originals/e1/43/92/e14392b3bb9f745025a5cf6a9abe11be.gif"
            style="width:80%;max-width:280px;border-radius:15px;">
-      <h1 style="font-size:34px;margin-top:20px;">
-        УРААААААААА!)) 😍🥰❤️
+      <h1 style="font-size:28px;margin-top:20px;">
+        УРААААА!))) 😍🥰❤️
       </h1>
     </div>
   `;
