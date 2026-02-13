@@ -75,14 +75,23 @@ const card = document.getElementById("card");
 let yesScale = 1;
 let noScale = 1;
 
-// Движение кнопки "Нет" строго внутри карточки
+// звуки
+const clickSound = new Audio("https://www.soundjay.com/buttons/sounds/button-3.mp3");
+const winSound = new Audio("https://www.soundjay.com/human/sounds/applause-8.mp3");
+
+// движение "Нет"
 function moveButton() {
+
+  clickSound.play();
+
+  if (navigator.vibrate) {
+    navigator.vibrate(50);
+  }
 
   const cardRect = card.getBoundingClientRect();
   const noRect = noBtn.getBoundingClientRect();
 
   const padding = 10;
-
   const maxX = cardRect.width - noRect.width - padding;
   const maxY = cardRect.height - noRect.height - padding;
 
@@ -92,11 +101,11 @@ function moveButton() {
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
 
-  // "Да" растет
+  // да растет
   yesScale += 0.15;
   yesBtn.style.transform = "scale(" + yesScale + ")";
 
-  // "Нет" уменьшается
+  // нет уменьшается
   noScale -= 0.1;
   if (noScale < 0.4) noScale = 0.4;
   noBtn.style.transform = "scale(" + noScale + ")";
@@ -105,7 +114,7 @@ function moveButton() {
 noBtn.addEventListener("touchstart", moveButton);
 noBtn.addEventListener("mouseover", moveButton);
 
-// Сердечки
+// сердечки
 function createHeart() {
   const heart = document.createElement("div");
   heart.innerHTML = "💖";
@@ -129,23 +138,22 @@ style.innerHTML = `
 `;
 document.head.appendChild(style);
 
-// Нажатие "Да"
+// нажатие ДА
 yesBtn.addEventListener("click", function() {
 
-  // Вибрация
+  clickSound.play();
+
   if (navigator.vibrate) {
-    navigator.vibrate([200, 100, 200]);
+    navigator.vibrate([200,100,200]);
   }
 
-  // Звук
-  const audio = new Audio("https://www.soundjay.com/human/sounds/applause-8.mp3");
-  audio.play();
+  winSound.play();
 
   document.body.innerHTML = `
     <div style="height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#ff7ea5;color:white;text-align:center;padding:20px;">
       <img src="https://i.pinimg.com/originals/e1/43/92/e14392b3bb9f745025a5cf6a9abe11be.gif"
            style="width:80%;max-width:280px;border-radius:15px;">
-      <h1 style="font-size:32px;margin-top:20px;">
+      <h1 style="font-size:34px;margin-top:20px;">
         УРААААААААА!)) 😍🥰❤️
       </h1>
     </div>
