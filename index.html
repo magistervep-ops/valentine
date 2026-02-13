@@ -9,9 +9,7 @@
 body {
   margin: 0;
   height: 100vh;
-  background: linear-gradient(-45deg, #ff758c, #ff7eb3, #ffb199, #ff6a88);
-  background-size: 400% 400%;
-  animation: gradient 8s ease infinite;
+  background: #ff7ea5;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,48 +18,50 @@ body {
   text-align: center;
 }
 
-@keyframes gradient {
-  0% {background-position: 0% 50%;}
-  50% {background-position: 100% 50%;}
-  100% {background-position: 0% 50%;}
-}
-
 .card {
   background: white;
   width: 90%;
-  max-width: 350px;
-  padding: 30px 20px;
-  border-radius: 25px;
+  max-width: 340px;
+  padding: 25px 20px;
+  border-radius: 20px;
   box-shadow: 0 15px 35px rgba(0,0,0,0.2);
   position: relative;
 }
 
 h1 {
-  font-size: 20px;
-  margin-bottom: 25px;
+  font-size: 18px;
+  margin-bottom: 20px;
   color: #ff4d6d;
 }
 
+.buttons {
+  position: relative;
+  height: 100px;
+}
+
 button {
-  width: 100%;
   padding: 14px;
   font-size: 16px;
   border-radius: 12px;
   border: none;
   cursor: pointer;
-  margin-top: 10px;
   transition: 0.3s;
 }
 
 #yes {
   background: #ff4d6d;
   color: white;
+  width: 100%;
+  position: relative;
+  z-index: 2;
 }
 
 #no {
   background: #ddd;
   position: absolute;
-  width: 120px;
+  width: 100px;
+  left: 0;
+  top: 60px;
 }
 </style>
 </head>
@@ -70,24 +70,40 @@ button {
 
 <div class="card">
   <h1>Лиза, ты будешь моей валентинкой? 💖</h1>
-  <button id="yes">Да 💘</button>
-  <button id="no">Нет 🙈</button>
+
+  <div class="buttons">
+    <button id="yes">Да 💘</button>
+    <button id="no">Нет 🙈</button>
+  </div>
 </div>
+
+<!-- звук -->
+<audio id="sound" src="https://www.soundjay.com/human/sounds/applause-8.mp3"></audio>
 
 <script>
 const yesBtn = document.getElementById("yes");
 const noBtn = document.getElementById("no");
+const sound = document.getElementById("sound");
 
-// Убегающая кнопка (работает и на телефоне)
-noBtn.addEventListener("touchstart", moveButton);
-noBtn.addEventListener("mouseover", moveButton);
+let yesSize = 1;
 
+// Кнопка "Нет" убегает + кнопка "Да" растет
 function moveButton() {
-  const x = Math.random() * (window.innerWidth - 120);
-  const y = Math.random() * (window.innerHeight - 50);
+  const maxX = window.innerWidth - 120;
+  const maxY = window.innerHeight - 80;
+
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
+
+  yesSize += 0.1;
+  yesBtn.style.transform = "scale(" + yesSize + ")";
 }
+
+noBtn.addEventListener("touchstart", moveButton);
+noBtn.addEventListener("mouseover", moveButton);
 
 // Сердечки
 function createHeart() {
@@ -113,17 +129,21 @@ style.innerHTML = `
 `;
 document.head.appendChild(style);
 
-// Нажатие ДА
+// При нажатии ДА
 yesBtn.addEventListener("click", function() {
+
+  sound.play();
+
   document.body.innerHTML = `
-    <div style="padding:20px;color:white;">
-      <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" 
-           style="width:80%;max-width:300px;border-radius:20px;">
-      <h1 style="font-size:32px;margin-top:20px;">
+    <div style="padding:20px;color:white;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;">
+      <img src="https://i.pinimg.com/originals/e1/43/92/e14392b3bb9f745025a5cf6a9abe11be.gif"
+           style="width:80%;max-width:280px;border-radius:15px;">
+      <h1 style="font-size:28px;margin-top:20px;">
         УРААААААААА!)) 🎉💖
       </h1>
     </div>
   `;
+
   setInterval(createHeart, 200);
 });
 </script>
