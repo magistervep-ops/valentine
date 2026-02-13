@@ -1,93 +1,8 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Для Лизы 💖</title>
-
-<style>
-body {
-  margin: 0;
-  height: 100vh;
-  background: linear-gradient(-45deg, #ff758c, #ff7eb3, #ffb199, #ff6a88);
-  background-size: 400% 400%;
-  animation: gradient 8s ease infinite;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: Arial, sans-serif;
-  overflow: hidden;
-}
-
-@keyframes gradient {
-  0% {background-position: 0% 50%;}
-  50% {background-position: 100% 50%;}
-  100% {background-position: 0% 50%;}
-}
-
-.card {
-  background: white;
-  padding: 40px;
-  border-radius: 25px;
-  text-align: center;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-  position: relative;
-}
-
-h1 {
-  font-size: 28px;
-  margin-bottom: 30px;
-  color: #ff4d6d;
-}
-
-button {
-  padding: 15px 30px;
-  font-size: 18px;
-  border-radius: 15px;
-  border: none;
-  cursor: pointer;
-  margin: 10px;
-  transition: 0.3s;
-}
-
-#yes {
-  background: #ff4d6d;
-  color: white;
-}
-
-#yes:hover {
-  transform: scale(1.1);
-}
-
-#no {
-  background: #ddd;
-  position: absolute;
-}
-
-.success {
-  text-align: center;
-  color: white;
-}
-
-.success h1 {
-  font-size: 40px;
-}
-</style>
-</head>
-
-<body>
-
-<div class="card" id="card">
-  <h1>Лиза 💖<br>Ты будешь моей валентинкой?</h1>
-  <button id="yes">Да 💘</button>
-  <button id="no">Нет 🙈</button>
-</div>
-
 <script>
 const noBtn = document.getElementById("no");
 const yesBtn = document.getElementById("yes");
 
-// Убегающая кнопка
+// Кнопка "Нет" убегает
 noBtn.addEventListener("mouseover", () => {
   const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
   const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
@@ -95,16 +10,43 @@ noBtn.addEventListener("mouseover", () => {
   noBtn.style.top = y + "px";
 });
 
-// При нажатии Да
+// Сердечки
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.innerHTML = "💖";
+  heart.style.position = "fixed";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.top = "-20px";
+  heart.style.fontSize = Math.random() * 20 + 20 + "px";
+  heart.style.animation = "fall 3s linear forwards";
+  document.body.appendChild(heart);
+
+  setTimeout(() => heart.remove(), 3000);
+}
+
+const style = document.createElement("style");
+style.innerHTML = `
+@keyframes fall {
+  to {
+    transform: translateY(110vh);
+    opacity: 0;
+  }
+}
+`;
+document.head.appendChild(style);
+
+// При нажатии ДА
 yesBtn.addEventListener("click", () => {
+
   document.body.innerHTML = `
-    <div class="success">
-      <h1>Я знал, Лиза 😍💖</h1>
+    <div style="text-align:center;margin-top:15vh;color:white;">
       <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" width="300">
+      <h1 style="font-size:50px;margin-top:20px;">
+        УРААААААААА!)) 🎉💖
+      </h1>
     </div>
   `;
+
+  setInterval(createHeart, 200);
 });
 </script>
-
-</body>
-</html>
